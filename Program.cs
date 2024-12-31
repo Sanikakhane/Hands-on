@@ -39,7 +39,7 @@ namespace Hands_on
             }*/
 
             //Group join
-            var groupJoin = persons.GroupJoin(
+            /*var groupJoin = persons.GroupJoin(
                 orders,
                 person => person.Id,        
                 order => order.PersonId,    
@@ -56,19 +56,63 @@ namespace Hands_on
                 {
                     Console.WriteLine($"  Product: {order.Product}");
                 }
-            }
+            }*/
+
+
+
+            // result = orders.OrderBy(order => order.OrderId).GroupBy(order => order.PersonId);
+            //var result = orders.GroupBy(order => order.PersonId).Where(size => size.Count()==2);
+
+            //foreach (var group in result)
+            //{
+            //    Console.WriteLine($"PersonId: {group.Key}");
+            //    foreach (var order in group)
+            //    {
+            //        Console.WriteLine($"OrderId: {order.OrderId}");
+            //    }
+            //    Console.WriteLine();
+            //}
+
+            List<Employee> employees = Datamanager.GetData();
+
+            //Aggregating functions
+            //1. Count
+            Console.WriteLine(employees.Count(emp => emp.FirstName == "Sanika"));
+
+            //2. Min
+            /* int minSalary = employees.Min(e => e.Salary);
+             var result = employees.Where(e => e.Salary == minSalary);
+             Console.WriteLine(minSalary);*/
+
+            //3.Max
+            //var result = employees.Where(e => e.Salary == employees.Max(e => e.Salary));
+
+            //4. average
+            Console.WriteLine(employees.Average(e => e.Age));
+
+            //5. Custome Aggregate function
+            var result = employees.Aggregate("", (acc, e) =>acc + e.FirstName + " " + e.LastName+ "\n");
+            Console.WriteLine(result);
+
+
+            //foreach (var emp in result)
+            //{
+            //    Console.WriteLine($"Id : {emp.Id} FirstName : {emp.FirstName} LastName : {emp.LastName} Age : {emp.Age} Department : {emp.Department} Salary : {emp.Salary}");
+
+            //}
+
         }
     }
     public class Person
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     public class Order
     {
         public int OrderId { get; set; }
         public int PersonId { get; set; }
-        public string Product { get; set; }
+        public string? Product { get; set; }
     }
 
 }
